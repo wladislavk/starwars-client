@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
 
-class App extends Component {
-  constructor(props) {
+interface IProps {}
+
+interface IState {
+  apiResponse: string
+}
+
+class App extends Component<IProps, IState> {
+  constructor(props: any) {
     super(props);
     this.state = { apiResponse: "" };
   }
