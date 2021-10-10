@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
@@ -9,7 +8,7 @@ class App extends Component {
   }
 
   callAPI() {
-    fetch("http://localhost:9001/testAPI")
+    fetch(process.env.REACT_APP_API_URL + "/testAPI")
       .then(res => res.text())
       .then(res => this.setState({ apiResponse: res }));
   }
