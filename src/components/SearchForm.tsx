@@ -3,40 +3,50 @@ import {IDS_TO_NAMES} from "../constants";
 import {Person} from "../models";
 
 interface IProps {
-    onDataLoad(data: Person): any
+    onDataLoad(data: Person | null): any,
+    onDataError(apiError: string): any
 }
 
 interface IState {
     searchValue: string,
+    isDisabled: boolean
 }
 
 export default class SearchForm extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
+        this.changeInput = this.changeInput.bind(this);
         this.doSearch = this.doSearch.bind(this);
+        this.state = { searchValue: "", isDisabled: false }
     }
 
     doSearch (e: SyntheticEvent) {
         e.preventDefault();
-        let searchId: number = 0;
+        let searchId: number;
         if (this.state.searchValue.match(/\d+/)) {
             searchId = this.findId();
         } else {
             searchId = this.findName();
         }
         if (searchId === 0) {
-            console.error('No record found');
+            this.setState({ searchValue: '' })
+            this.props.onDataError('No record found');
+            this.props.onDataLoad(null);
             return;
         }
 
+        this.setState({ isDisabled: true });
         fetch(process.env.REACT_APP_API_URL + "/api/people/" + searchId)
             .then(res => res.json())
             .then(
                 (result) => {
-                    this.props.onDataLoad(result.data)
+                    this.props.onDataLoad(result);
+                    this.setState({ isDisabled: false });
                 },
                 (error) => {
-                    console.error(error);
+                    this.props.onDataError(error.toString());
+                    this.props.onDataLoad(null);
+                    this.setState({ isDisabled: false, searchValue: '' });
                 }
             );
     }
@@ -66,9 +76,27 @@ export default class SearchForm extends Component<IProps, IState> {
 
     render () {
         return (
-            <div className="SearchForm">
-                <input id="search-form" type="text" onChange={this.changeInput} />
-                <input type="button" value="Search" onClick={this.doSearch} />
+            <div className="SearchForm input-group mb-3">
+                <input
+                    id="search-form"
+                    className="form-control"
+                    type="text"
+                    onChange={this.changeInput}
+                    value={this.state.searchValue}
+                />
+                <button
+                    className="btn btn-outline-secondary"
+                    onClick={this.doSearch}
+                    disabled={this.state.isDisabled}
+                >
+                    { this.state.isDisabled
+                        ? <span>
+                              <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                              <span>Loading...</span>
+                          </span>
+                        : <span>Search</span>
+                    }
+                </button>
             </div>
         );
     }

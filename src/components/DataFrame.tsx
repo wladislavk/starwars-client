@@ -10,97 +10,99 @@ interface IState {}
 export default class DataFrame extends Component<IProps, IState> {
     render () {
         return (
-            <div className="DataFrame">
-                <div>
-                    <div>Name:</div>
-                    <div>{ this.props.apiData?.name }</div>
+            <div className="DataFrame container">
+                <div className="row">
+                    <div className="col">Name:</div>
+                    <div className="col">{ this.props.apiData?.name }</div>
                 </div>
-                <div>
-                    <div>Height:</div>
-                    <div>{ this.props.apiData?.height }</div>
+                <div className="row">
+                    <div className="col">Height:</div>
+                    <div className="col">{ this.props.apiData?.height }</div>
                 </div>
-                <div>
-                    <div>Mass:</div>
-                    <div>{ this.props.apiData?.mass }</div>
+                <div className="row">
+                    <div className="col">Mass:</div>
+                    <div className="col">{ this.props.apiData?.mass }</div>
                 </div>
-                <div>
-                    <div>Hair Color:</div>
-                    <div>{ this.props.apiData?.hair_color }</div>
+                <div className="row">
+                    <div className="col">Hair Color:</div>
+                    <div className="col">{ this.props.apiData?.hair_color }</div>
                 </div>
-                <div>
-                    <div>Skin Color:</div>
-                    <div>{ this.props.apiData?.skin_color }</div>
+                <div className="row">
+                    <div className="col">Skin Color:</div>
+                    <div className="col">{ this.props.apiData?.skin_color }</div>
                 </div>
-                <div>
-                    <div>Gender:</div>
-                    <div>{ this.props.apiData?.gender }</div>
+                <div className="row">
+                    <div className="col">Gender:</div>
+                    <div className="col">{ this.props.apiData?.gender }</div>
                 </div>
-                <div>
-                    <div>Birth Year:</div>
-                    <div>{ this.props.apiData?.birth_year }</div>
+                <div className="row">
+                    <div className="col">Birth Year:</div>
+                    <div className="col">{ this.props.apiData?.birth_year }</div>
                 </div>
-                <div>
-                    <div>Home Planet:</div>
-                    <div>
-                        <div>
-                            <div>Name:</div>
-                            <div>{ this.props.apiData?.homeworld.name }</div>
-                        </div>
-                        <div>
-                            <div>Terrain:</div>
-                            <div>{ this.props.apiData?.homeworld.terrain }</div>
-                        </div>
-                        <div>
-                            <div>Population:</div>
-                            <div>{ this.props.apiData?.homeworld.population }</div>
+                <div className="row">
+                    <div className="col">Home Planet:</div>
+                    <div className="col">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col">Name:</div>
+                                <div className="col">{ this.props.apiData?.homeworld.name }</div>
+                            </div>
+                            <div className="row">
+                                <div className="col">Terrain:</div>
+                                <div className="col">{ this.props.apiData?.homeworld.terrain }</div>
+                            </div>
+                            <div className="row">
+                                <div className="col">Population:</div>
+                                <div className="col">{ this.props.apiData?.homeworld.population }</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div>
-                    <div>Species:</div>
-                    <div>
+                <div className="row">
+                    <div className="col">Species:</div>
+                    <div className="col">
                         { this.props.apiData?.species.map((species) =>
-                            <div>
-                                <div>
-                                    <div>Name:</div>
-                                    <div>{ species.name }</div>
+                            <div key={ species.name } className="container">
+                                <div className="row">
+                                    <div className="col">Name:</div>
+                                    <div className="col">{ species.name }</div>
                                 </div>
-                                <div>
-                                    <div>Average Lifespan:</div>
-                                    <div>{ species.average_lifespan }</div>
+                                <div className="row">
+                                    <div className="col">Average Lifespan:</div>
+                                    <div className="col">{ species.average_lifespan }</div>
                                 </div>
-                                <div>
-                                    <div>Classification:</div>
-                                    <div>{ species.classification }</div>
+                                <div className="row">
+                                    <div className="col">Classification:</div>
+                                    <div className="col">{ species.classification }</div>
                                 </div>
-                                <div>
-                                    <div>Language:</div>
-                                    <div>{ species.language }</div>
+                                <div className="row">
+                                    <div className="col">Language:</div>
+                                    <div className="col">{ species.language }</div>
                                 </div>
                             </div>
                         ) }
                     </div>
                 </div>
-                <div>
-                    <div>Films:</div>
-                    <div>
+                <div className="row">
+                    <div className="col">Films:</div>
+                    <div className="col">
                         { this.props.apiData?.films.map((film) =>
-                            <div>
-                                <div>
-                                    <div>Title:</div>
-                                    <div>{ film.title }</div>
+                            <div key={ film.title } className="container">
+                                <div className="row">
+                                    <div className="col">Title:</div>
+                                    <div className="col">{ film.title }</div>
                                 </div>
-                                <div>
-                                    <div>Director:</div>
-                                    <div>{ film.director }</div>
+                                <div className="row">
+                                    <div className="col">Director:</div>
+                                    <div className="col">{ film.director }</div>
                                 </div>
-                                <div>
-                                    <div>Producers:</div>
-                                    <div>{ film.producer }</div>
+                                <div className="row">
+                                    <div className="col">Producers:</div>
+                                    <div className="col">{ film.producer }</div>
                                 </div>
-                                <div>
-                                    <div>Release Date:</div>
-                                    <div>{ film.release_date.toDateString() }</div>
+                                <div className="row">
+                                    <div className="col">Release Date:</div>
+                                    <div className="col">{ film.release_date }</div>
                                 </div>
                             </div>
                         ) }
