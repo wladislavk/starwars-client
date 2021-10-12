@@ -29,7 +29,7 @@ export default class SearchForm extends Component<IProps, IState> {
             return;
         }
 
-        fetch(process.env.REACT_APP_API_URL + "/api/" + searchId)
+        fetch(process.env.REACT_APP_API_URL + "/api/people/" + searchId)
             .then(res => res.json())
             .then(
                 (result) => {

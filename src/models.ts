@@ -5,6 +5,7 @@ export interface Person {
     hair_color: string,
     skin_color: string,
     gender: string,
+    birth_year: string,
     homeworld: Planet,
     species: Array<Species>,
     films: Array<Film>

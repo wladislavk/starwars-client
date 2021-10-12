@@ -21,22 +21,6 @@ class App extends Component<IProps, IState> {
         this.setState({ apiResponse: data });
     }
 
-    callAPI() {
-        fetch(process.env.REACT_APP_API_URL + "/testAPI")
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.setState({ apiResponse: result })
-                },
-                (error) => {
-                    console.log(error);
-                })
-    };
-
-    componentWillMount() {
-        this.callAPI();
-    }
-
     render () {
         return (
             <div className="App">
