@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { DateTime } from 'luxon';
 import {Person} from "../models";
 import './DataFrame.css';
 
@@ -9,6 +10,11 @@ interface IProps {
 interface IState {}
 
 export default class DataFrame extends Component<IProps, IState> {
+    formatDate (date: string) {
+        const luxonDate = DateTime.fromISO(date);
+        return `${luxonDate.day} ${luxonDate.monthShort} ${luxonDate.year}`;
+    }
+
     render () {
         return (
             <div className="DataFrame container">
@@ -114,7 +120,7 @@ export default class DataFrame extends Component<IProps, IState> {
                                                             </div>
                                                             <div className="row">
                                                                 <div className="col">Release Date:</div>
-                                                                <div className="col">{ film.release_date }</div>
+                                                                <div className="col">{ this.formatDate(film.release_date) }</div>
                                                             </div>
                                                         </div>
                                                     </div>

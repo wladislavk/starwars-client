@@ -28,5 +28,5 @@ export interface Film {
     title: string,
     director: string,
     producer: string,
-    release_date: Date
+    release_date: string
 }
