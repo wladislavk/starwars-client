@@ -1,5 +1,5 @@
 import React, {Component, SyntheticEvent} from 'react';
-import {IDS_TO_NAMES} from "../constants";
+import {IDS_TO_NAMES, IdsNames} from "../constants";
 import {Person} from "../models";
 
 interface IProps {
@@ -9,7 +9,8 @@ interface IProps {
 
 interface IState {
     searchValue: string,
-    isDisabled: boolean
+    isDisabled: boolean,
+    typeahead: Array<string>
 }
 
 export default class SearchForm extends Component<IProps, IState> {
@@ -17,7 +18,7 @@ export default class SearchForm extends Component<IProps, IState> {
         super(props);
         this.changeInput = this.changeInput.bind(this);
         this.doSearch = this.doSearch.bind(this);
-        this.state = { searchValue: "", isDisabled: false }
+        this.state = { searchValue: "", isDisabled: false, typeahead: [] }
     }
 
     doSearch (e: SyntheticEvent) {
@@ -53,6 +54,21 @@ export default class SearchForm extends Component<IProps, IState> {
 
     changeInput (e: SyntheticEvent<HTMLInputElement>) {
         this.setState({ searchValue: e.currentTarget.value });
+        if (e.currentTarget.value.length >= 3) {
+            const matchingRecords: Array<IdsNames> = IDS_TO_NAMES.filter(
+                x => x.name.toLowerCase().startsWith(e.currentTarget.value.toLowerCase())
+            );
+            const typeaheadData: Array<string> = [];
+            matchingRecords.map(record => typeaheadData.push(record.name));
+            this.setState({ typeahead: typeaheadData });
+        } else {
+            this.setState({ typeahead: [] });
+        }
+    }
+
+    setSuggestion (value: string) {
+        this.setState({ searchValue: value });
+        this.setState({ typeahead: [] });
     }
 
     private findId(): number {
@@ -76,27 +92,51 @@ export default class SearchForm extends Component<IProps, IState> {
 
     render () {
         return (
-            <div className="SearchForm input-group mb-3">
-                <input
-                    id="search-form"
-                    className="form-control"
-                    type="text"
-                    onChange={this.changeInput}
-                    value={this.state.searchValue}
-                />
-                <button
-                    className="btn btn-outline-secondary"
-                    onClick={this.doSearch}
-                    disabled={this.state.isDisabled}
-                >
-                    { this.state.isDisabled
-                        ? <span>
-                              <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                              <span>Loading...</span>
-                          </span>
-                        : <span>Search</span>
-                    }
-                </button>
+            <div className="SearchForm mb-3">
+                <div className="container">
+                    <div className="row">
+                        <div className="input-group mb-0 col-12">
+                            <input
+                                id="search-form"
+                                className="form-control"
+                                type="text"
+                                autoComplete="off"
+                                onChange={this.changeInput}
+                                value={this.state.searchValue}
+                            />
+                            <button
+                                className="btn btn-outline-primary px-2"
+                                onClick={this.doSearch}
+                                disabled={this.state.isDisabled}
+                            >
+                                { this.state.isDisabled
+                                    ? <span>
+                                          <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                          <span>Loading...</span>
+                                      </span>
+                                    : <span>Search</span>
+                                }
+                            </button>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div
+                            className="list-group mt-2 col-12 "
+                            style={{ padding: '0 12px', position: 'relative' }}
+                        >
+                            <div style={{ width: '100%', display: this.state.typeahead.length > 0 ? 'block' : 'none', position: "absolute", zIndex: 999, paddingRight: '24px' }}>
+                                { this.state.typeahead.map((suggestion) =>
+                                        <button
+                                            className="list-group-item"
+                                            style={{ width: '100%', textAlign: 'left' }}
+                                            key={ suggestion }
+                                            onClick={ () => this.setSuggestion(suggestion) }
+                                        >{ suggestion }</button>
+                                ) }
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

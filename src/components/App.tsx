@@ -29,14 +29,15 @@ class App extends Component<IProps, IState> {
 
     render () {
         return (
-            <div className="App">
+            <div className="App" style={{ margin: '5px 0' }}>
+                <h1 style={{ textAlign: "center" }} className="mt-3 mb-3">Star Wars Search</h1>
                 {this.state.apiError.length > 0 &&
                     <Alert variant="danger" onClose={() => this.setState({apiError: ''})} dismissible>
                         {this.state.apiError}
                     </Alert>
                 }
                 <SearchForm onDataLoad={this.handleAPILoad} onDataError={this.setApiError} />
-                <DataFrame apiData={this.state.apiResponse} />
+                { this.state.apiResponse !== null && <DataFrame apiData={this.state.apiResponse} /> }
             </div>
         );
     }

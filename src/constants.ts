@@ -1,4 +1,4 @@
-interface IdsNames {
+export interface IdsNames {
     id: number,
     name: string
 }
